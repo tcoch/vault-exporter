@@ -1,0 +1,20 @@
+name: vw_export
+
+services:
+
+  python:
+    container_name: vw_export_python
+    hostname: vw_export_python
+    build:
+      context: .
+      target: python_3_9
+    volumes:
+      - ./:/app
+    command: [ "tail", "-f", "/dev/null" ]
+  
+  selenium:
+    container_name: vw_export_selenium
+    hostname: vw_export_selenium
+    image: selenium/standalone-chrome
+    ports:
+      - 4444:4444

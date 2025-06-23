@@ -5,10 +5,8 @@ from selenium.webdriver.common.by import By
 import time
 import os
 
-
-
 if __name__ == '__main__':
-    
+
     # Create folder to store screenshots
     if not (os.path.isdir("/app/screenshot")):
         os.mkdir("/app/screenshot")
@@ -16,7 +14,7 @@ if __name__ == '__main__':
     try:
         # Load env variables from .env file
         load_dotenv()
-        
+
         # Create driver
         chrome_options = ChromeOptions()
         prefs = {
@@ -34,7 +32,7 @@ if __name__ == '__main__':
         chrome_options.add_argument("--disable-dev-shm-usage")
         driver = webdriver.Remote("http://selenium:4444/wd/hub", options=chrome_options)
         driver.maximize_window()
-        
+
         # Access base URL
         driver.get(os.getenv("VW_URL"))
         time.sleep(2)
@@ -55,7 +53,7 @@ if __name__ == '__main__':
         submit_button.click()
         time.sleep(2)
         driver.save_screenshot('/app/screenshot/2-connected.png')
-        
+
         # Access tools
         tools_link = driver.find_element(By.CSS_SELECTOR, "a[aria-label=Tools]")
         tools_link.click()
@@ -65,7 +63,7 @@ if __name__ == '__main__':
         export_link.click()
         time.sleep(1)
         driver.save_screenshot('/app/screenshot/4-exporting.png')
-        
+
         # Export vault
         button_export = driver.find_element(By.CSS_SELECTOR, "button[form='export_form_exportForm']")
         button_export.click()
@@ -78,9 +76,9 @@ if __name__ == '__main__':
         button_download.click()
         time.sleep(2)
         driver.save_screenshot('/app/screenshot/7-download.png')
-        
+
     except Exception as err:
         print(Exception, err)
-        
+
     finally:
         driver.quit()

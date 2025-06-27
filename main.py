@@ -4,11 +4,24 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.common.by import By
 import time
 import os
+import argparse
+
+
+def save_screenshot(file: str):
+    if args.take_screenshots:
+        driver.save_screenshot(file)
+
 
 if __name__ == '__main__':
 
+    # parse argument(s)
+    parser = argparse.ArgumentParser(description='Export your vaultwarden password database')
+    parser.add_argument('-s', '--take-screenshots', required=False, default=False, action='store_true',
+                        help='Use this option if you want to take screenshots of the actions performed')
+    args = parser.parse_args()
+
     # Create folder to store screenshots
-    if not (os.path.isdir("/app/screenshot")):
+    if not (os.path.isdir("/app/screenshot")) and args.take_screenshots:
         os.mkdir("/app/screenshot")
 
     try:
@@ -36,7 +49,7 @@ if __name__ == '__main__':
         # Access base URL
         driver.get(os.getenv("VW_URL"))
         time.sleep(2)
-        driver.save_screenshot('/app/screenshot/0-homepage.png')
+        save_screenshot('/app/screenshot/0-homepage.png')
 
         # Connection
         # Set user
@@ -45,37 +58,37 @@ if __name__ == '__main__':
         submit_button = driver.find_element(By.CSS_SELECTOR, "button[buttontype=primary]")
         submit_button.click()
         time.sleep(1)
-        driver.save_screenshot('/app/screenshot/1-login_set.png')
+        save_screenshot('/app/screenshot/1-login_set.png')
         # Set password
         input_password = driver.find_element(By.CSS_SELECTOR, "input[type=password]")
         input_password.send_keys(os.getenv("VW_PWD"))
         submit_button = driver.find_element(By.CSS_SELECTOR, "button[type=submit]")
         submit_button.click()
         time.sleep(2)
-        driver.save_screenshot('/app/screenshot/2-connected.png')
+        save_screenshot('/app/screenshot/2-connected.png')
 
         # Access tools
         tools_link = driver.find_element(By.CSS_SELECTOR, "a[aria-label=Tools]")
         tools_link.click()
         time.sleep(0.5)
-        driver.save_screenshot('/app/screenshot/3-tools_expanded.png')
+        save_screenshot('/app/screenshot/3-tools_expanded.png')
         export_link = driver.find_element(By.CSS_SELECTOR, "a[aria-label='Export vault']")
         export_link.click()
         time.sleep(1)
-        driver.save_screenshot('/app/screenshot/4-exporting.png')
+        save_screenshot('/app/screenshot/4-exporting.png')
 
         # Export vault
         button_export = driver.find_element(By.CSS_SELECTOR, "button[form='export_form_exportForm']")
         button_export.click()
         time.sleep(2)
-        driver.save_screenshot('/app/screenshot/5-format_confirmed.png')
+        save_screenshot('/app/screenshot/5-format_confirmed.png')
         input_password = driver.find_element(By.CSS_SELECTOR, "input[id=masterPassword]")
         input_password.send_keys(os.getenv("VW_PWD"))
-        driver.save_screenshot('/app/screenshot/6-password_set.png')
+        save_screenshot('/app/screenshot/6-password_set.png')
         button_download = driver.find_element(By.CSS_SELECTOR, "footer button[type=submit]")
         button_download.click()
         time.sleep(2)
-        driver.save_screenshot('/app/screenshot/7-download.png')
+        save_screenshot('/app/screenshot/7-download.png')
 
     except Exception as err:
         print(Exception, err)

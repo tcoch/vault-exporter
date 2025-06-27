@@ -1,3 +1,4 @@
 /.env
 /screenshot
 /bitwarden_export_*.json
+/.idea

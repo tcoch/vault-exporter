@@ -72,7 +72,7 @@ if __name__ == '__main__':
         tools_link.click()
         time.sleep(0.5)
         save_screenshot('/app/screenshot/3-tools_expanded.png')
-        export_link = driver.find_element(By.CSS_SELECTOR, "a[aria-label='Export vault']")
+        export_link = driver.find_element(By.CSS_SELECTOR, "a[aria-label='Export']")
         export_link.click()
         time.sleep(1)
         save_screenshot('/app/screenshot/4-exporting.png')
